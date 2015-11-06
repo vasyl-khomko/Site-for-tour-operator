@@ -1,6 +1,8 @@
 package toursite.service;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import toursite.model.Tour;
 import toursite.dao.TourDAO;
@@ -19,35 +21,20 @@ public class TourServiceImpl implements TourService {
     @Autowired
     private TourDAO tourDAO;
 
-    private int numberToursOnPage = 6;
-
     @Transactional
-    public Tour findById(int id) {
-        return tourDAO.findById(id);
+    public Tour findOne(int tourId) {
+        return tourDAO.findOne(tourId);
     }
 
     @Transactional
-    public List<Tour> listTours(int pageNumber) {
-        int firstResult = (pageNumber - 1) * numberToursOnPage;
-        return tourDAO.listTours(firstResult, numberToursOnPage);
+    public Page<Tour> findAll(PageRequest pageRequest) {
+        return tourDAO.findAll(pageRequest);
     }
 
     @Transactional
     public void saveOrUpdate(Tour tour) {
-        tourDAO.saveOrUpdate(tour);
+        tourDAO.save(tour);
     }
 
-    @Transactional
-    public int pagesCount() {
-        long toursCount = tourDAO.countTours();
-        return (int)toursCount / numberToursOnPage +
-                ((toursCount % numberToursOnPage > 0) ? 1: 0);
-    }
-
-    private int count = 0;
-    @Scope("session")
-    public int count() {
-        return count++;
-    }
 
 }

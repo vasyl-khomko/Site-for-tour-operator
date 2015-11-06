@@ -1,6 +1,7 @@
 package toursite.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import toursite.dao.UserDAO;
 import toursite.model.NotConfirmedUser;
 import toursite.model.Review;
@@ -19,6 +20,6 @@ public interface UserService {
     public void activate(String activationCode);
     public NotConfirmedUser findByEmail(String email);
     public void save(NotConfirmedUser user);
-    public List<NotConfirmedUser> findAllNotConfirmedUser(int firstResult, int maxResult);
+    public Page<NotConfirmedUser> findAllNotConfirmedUser(int page, int size);
 
 }

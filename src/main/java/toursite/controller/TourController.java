@@ -2,6 +2,8 @@ package toursite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -20,12 +22,15 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 /**
  * Created by Vasyl on 29.05.2015.
  */
 @Controller
 @Scope("session")
 public class TourController {
+    private final int DEFAULT_TOURS_CUNT = 4;
     @Autowired
     private TourService tourService;
 
@@ -34,12 +39,6 @@ public class TourController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private TourdayService tourdayService;
-
-    @Autowired
-    private ServiceService serviceService;
 
     @Autowired
     private CategoryService categoryService;
@@ -51,15 +50,14 @@ public class TourController {
 
     @RequestMapping(value = {"/","/tours"})
     public String tours(@RequestParam(defaultValue = "1", value="page") int page, ModelMap model) {
-        model.addAttribute("tours", tourService.listTours(page));
-        model.addAttribute("page", page);
-        model.addAttribute("pagesCount", tourService.pagesCount());
+        Page<Tour> pageOfTours = tourService.findAll(new PageRequest(page, DEFAULT_TOURS_CUNT));
+        model.addAttribute("page", pageOfTours);
         return "tours/list";
     }
 
     @RequestMapping("/tours/view")
     public String view(@RequestParam(defaultValue = "1", value="tour_id") int tourId, ModelMap model) {
-        Tour tour = tourService.findById(tourId);
+        Tour tour = tourService.findOne(tourId);
         model.addAttribute("tour", tour);
         model.addAttribute("reviews", reviewService.findByTourId(tour.getTourId()));
         model.addAttribute("review", new Review());
@@ -96,7 +94,7 @@ public class TourController {
 
     @RequestMapping("/tours/edit-tour")
     public String edit(@RequestParam(value="tour_id") int tourId) {
-        editedTour = tourService.findById(tourId);
+        editedTour = tourService.findOne(tourId);
         return "redirect:/tours/edit-current-tour";
     }
 
@@ -111,7 +109,7 @@ public class TourController {
 
     @RequestMapping("/tours/delete-tour")
     public String delete(@RequestParam(value="tour_id") int tourId) {
-        editedTour = tourService.findById(tourId);
+        editedTour = tourService.findOne(tourId);
         return "redirect:/tours/edit-current-tour";
     }
 
@@ -157,7 +155,7 @@ public class TourController {
                 editedTour.getCountries().add(countryService.findById(countries[i]));
             }
         }
-        tourService.saveOrUpdate(editedTour);
+        //tourService.saveOrUpdate(editedTour);
 
         return "redirect:/tours/create-or-edit-tourdays";
     }
@@ -176,7 +174,7 @@ public class TourController {
         }
         else {
             for(int i = tourdays.size(); i > editedTour.getDuration(); i--) {
-                tourdayService.delete(tourdays.remove(i - 1));
+                tourdays.remove(i - 1);
             }
         }
         model.addAttribute("tourdays", tourdays);
@@ -189,7 +187,6 @@ public class TourController {
         for(int i = 0; i < descriptions.length; i++) {
             Tourday tourday = tourdays.get(i);
             tourday.setDescription(descriptions[i]);
-            tourdayService.saveOrUpdate(tourday);
         }
         return "redirect:/tours/create-or-edit-services";
     }
@@ -208,7 +205,6 @@ public class TourController {
         service.setPrice(price);
         service.setTour(editedTour);
         editedTour.getServices().add(service);
-        serviceService.add(service);
 
         return "redirect:/tours/create-or-edit-services";
     }

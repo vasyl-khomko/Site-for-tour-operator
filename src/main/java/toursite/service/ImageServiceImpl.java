@@ -20,7 +20,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Transactional
     public Image getDefaultUserImage() {
-        return imageDAO.findById(1);
+        return imageDAO.findOne(1);
     }
 
     @Transactional

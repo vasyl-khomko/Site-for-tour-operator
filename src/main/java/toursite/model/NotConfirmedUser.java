@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * Created by Vasyl on 11.06.2015.
  */
 @Entity
-@Table(name = "not_confirmed_user", schema = "", catalog = "tour_operator")
+@Table(name = "not_confirmed_user")
 public class NotConfirmedUser {
     private int notConfirmedUserId;
     private String username;

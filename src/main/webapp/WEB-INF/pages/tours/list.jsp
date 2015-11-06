@@ -12,7 +12,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Тури</title>
-    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/favicon.ico" />
     <%@ include file="../includes/links.jsp"%>
     <%@ include file="../includes/scripts.jsp"%>
 </head>
@@ -20,7 +19,7 @@
     <div class="container">
         <%@ include file="../includes/navbar.jsp"%>
         <div class="row">
-            <c:forEach items="${tours}" var="tour" varStatus="i">
+            <c:forEach items="${page.content}" var="tour" varStatus="i">
             <div class="col-md-4">
                 <div class="thumbnail">
                     <img src="/images/${tour.image.fileName}">
@@ -47,24 +46,15 @@
             </c:forEach>
         </div>
         <div class="row text-center">
-            <h1>${pagesCount}</h1>
-            <h1>Count: ${count}</h1>
+            <h1>Count: ${page.totalPages}</h1>
             <div class="col-lg-12">
                 <ul class="pagination">
-                    <c:choose>
-                        <c:when test="${i == page}">
-                            <li class="active"><a href="/?page=${i}">${i}</a></li>
-                        </c:when>
-                        <c:otherwise>
-                            <li><a href="">«</a></li>
-                        </c:otherwise>
-                    </c:choose>
                     <li>
                         <a href="">«</a>
                     </li>
-                    <c:forEach begin="1" end="${pagesCount}" var="i">
+                    <c:forEach begin="1" end="${page.totalPages}" var="i">
                         <c:choose>
-                            <c:when test="${i == page}">
+                            <c:when test="${i == page.number}">
                                 <li class="active"><a href="/?page=${i}">${i}</a></li>
                             </c:when>
                             <c:otherwise>

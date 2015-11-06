@@ -23,7 +23,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional
     public Role findById(int roleId) {
-        return roleDAO.findById(roleId);
+        return roleDAO.findOne(roleId);
     }
 
     @Transactional

@@ -11,7 +11,7 @@ public class Image {
     private String fileName;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
     public int getImageId() {
         return imageId;

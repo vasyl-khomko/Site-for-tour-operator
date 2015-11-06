@@ -1,5 +1,7 @@
 package toursite.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 
 @Controller
@@ -38,7 +41,6 @@ public class UserController {
 
     @RequestMapping("/users")
 	public String users(@RequestParam(defaultValue = "1", value="page") int page, ModelMap model) {
-        userService.findAllNotConfirmedUser(0, 8);
         model.addAttribute("users", userService.findAllNotConfirmedUser(0, 8));
 		return "users/list";
 	}
@@ -111,9 +113,17 @@ public class UserController {
 
         try {
             if(!file.isEmpty()) {
-                String filename = fileUploadService.upload(file, "D:/toursite_upload/images/");
+                //String filename = fileUploadService.upload(file, "D:/toursite_upload/images/");
+                Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name", "khomko-v",
+                        "api_key", "668656986683845",
+                        "api_secret", "30HP9RuWbfQ60wrmaGHtgM-Xu_o"));
+
+                Map uploadResult = cloudinary.uploader()
+                        .upload(file.getBytes(), ObjectUtils.emptyMap());
                 Image image = new Image();
-                image.setFileName(filename);
+                System.out.println("url: " + uploadResult.get("url"));
+                image.setFileName((String) uploadResult.get("url"));
                 user.setImage(image);
             }
         } catch (IOException e) {

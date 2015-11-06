@@ -21,8 +21,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Домівка</a></li>
-                <li><a href="/tours">Тури</a></li>
+                <li><a href="<c:url value="/"/>">Домівка</a></li>
+                <li><a href="${pageContext.request.contextPath}/tours">Тури</a></li>
                 <li><a href="/tours">Країни</a></li>
                 <!--li><a href="/tours">Заявки користувачів</a></li-->
                 <!--li><a href="/tours/create-tour">Створити тур</a></li-->

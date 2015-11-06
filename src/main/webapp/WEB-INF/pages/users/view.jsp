@@ -17,9 +17,6 @@
 <body>
     <div class="container">
         <%@ include file="../includes/navbar.jsp"%>
-        <!--div class="page-header">
-            <h2>Профіль</h2>
-        </div-->
         <div class="row">
             <div class="col-md-12">
                 <div class="login-panel panel panel-default">
@@ -29,7 +26,7 @@
                     <div class="panel-body">
                         <div class="col-md-4">
                             <div class="thumbnail">
-                                <img src="/images/${user.image.fileName}">
+                                <img src="${user.image.fileName}">
                             </div>
                         </div>
                         <div class="col-md-8">

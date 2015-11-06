@@ -5,6 +5,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by Vasyl on 21.05.2015.
  */
 @Entity
+@Table(name = "user", schema = "public")
 public class User {
     private int userId;
     private String username;
@@ -51,6 +53,7 @@ public class User {
 
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getUserId() {
         return userId;
     }

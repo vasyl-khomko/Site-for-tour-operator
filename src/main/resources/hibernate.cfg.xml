@@ -4,20 +4,22 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:mysql://localhost:3306/tour_operator</property>
-    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+      <property name="connection.url">
+          jdbc:postgresql://ec2-54-204-30-115.compute-1.amazonaws.com/dbcru7mqehij90?sslmode=require
+      </property>
+      <property name="connection.driver_class">org.postgresql.Driver</property>
       <mapping class="toursite.model.Category"/>
-      <mapping class="toursite.model.Order"/>
-      <mapping class="toursite.model.Review"/>
-      <mapping class="toursite.model.Role"/>
-      <mapping class="toursite.model.Tour"/>
-      <mapping class="toursite.model.User"/>
-      <mapping class="toursite.model.Service"/>
-      <mapping class="toursite.model.Tourday"/>
-      <mapping class="toursite.model.Country"/>
-      <mapping class="toursite.model.NotConfirmedUser"/>
-      <mapping class="toursite.model.Image"/>
-      <!-- DB schema will be updated if needed -->
-    <!-- <property name="hbm2ddl.auto">update</property> -->
+    <mapping class="toursite.model.Order"/>
+    <mapping class="toursite.model.Review"/>
+    <mapping class="toursite.model.Role"/>
+    <mapping class="toursite.model.Tour"/>
+    <mapping class="toursite.model.User"/>
+    <mapping class="toursite.model.Service"/>
+    <mapping class="toursite.model.Tourday"/>
+    <mapping class="toursite.model.Country"/>
+    <mapping class="toursite.model.NotConfirmedUser"/>
+    <mapping class="toursite.model.Image"/>
+      <mapping class="toursite.model.Conversation"/>
+      <mapping class="toursite.model.ConversationReply"/>
   </session-factory>
 </hibernate-configuration>

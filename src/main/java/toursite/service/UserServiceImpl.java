@@ -1,6 +1,8 @@
 package toursite.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toursite.dao.NotConfirmedUserDAO;
@@ -8,7 +10,6 @@ import toursite.dao.UserDAO;
 import toursite.model.NotConfirmedUser;
 import toursite.model.User;
 
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void update(User user) {
-        userDAO.update(user);
+        userDAO.save(user);
     }
 
     @Transactional
@@ -51,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public List<NotConfirmedUser> findAllNotConfirmedUser(int firstResult, int maxResult) {
-        return notConfirmedUserDAO.findAll(firstResult, maxResult);
+    public Page<NotConfirmedUser> findAllNotConfirmedUser(int page, int size) {
+        return notConfirmedUserDAO.findAll(new PageRequest(page, size));
     }
 
     @Transactional
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void confirm(int userId) {
-        NotConfirmedUser notConfirmedUser = notConfirmedUserDAO.findById(userId);
+        NotConfirmedUser notConfirmedUser = notConfirmedUserDAO.findOne(userId);
         notConfirmedUserDAO.delete(notConfirmedUser);
         User user = new User();
         user.setUsername(notConfirmedUser.getUsername());
@@ -105,7 +106,7 @@ public class UserServiceImpl implements UserService {
         }
         else {
             notConfirmedUser.setActivated(true);
-            notConfirmedUserDAO.update(notConfirmedUser);
+            notConfirmedUserDAO.save(notConfirmedUser);
         }
     }
 

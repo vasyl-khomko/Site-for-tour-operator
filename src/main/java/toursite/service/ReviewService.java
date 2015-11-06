@@ -9,6 +9,5 @@ import java.util.List;
  */
 public interface ReviewService {
     public void save(Review review);
-
     public List<Review> findByTourId(int tourId);
 }

@@ -1,19 +1,28 @@
 package toursite.model;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Vasyl on 21.05.2015.
  */
 @Entity
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "graph.Tour.countries",
+                attributeNodes = {@NamedAttributeNode("countries")}),
+        @NamedEntityGraph(name = "graph.Tour.categories",
+                attributeNodes = {@NamedAttributeNode("categories")}),
+        @NamedEntityGraph(name = "graph.Tour.servicesAndTourdays",
+                attributeNodes = {@NamedAttributeNode("services"),
+                        @NamedAttributeNode("tourdays")}),
+        @NamedEntityGraph(name = "graph.Tour.allAttributes",
+                attributeNodes = {@NamedAttributeNode("countries"),
+                        @NamedAttributeNode("categories")})
+})
 public class Tour {
     private int tourId;
     private String name;
@@ -38,7 +47,8 @@ public class Tour {
         this.image = image;
     }
 
-    @ManyToMany(cascade = javax.persistence.CascadeType.ALL)
+    @ManyToMany
+    @Fetch(value = FetchMode.JOIN)
     @JoinTable(name="tour_has_country",
             joinColumns=@JoinColumn(name="tour_id"),
             inverseJoinColumns=@JoinColumn(name="country_id"))
@@ -50,7 +60,8 @@ public class Tour {
         this.countries = countries;
     }
 
-    @ManyToMany(cascade = javax.persistence.CascadeType.ALL)
+    @ManyToMany
+    @Fetch(value = FetchMode.JOIN)
     @JoinTable(name="tour_has_category",
             joinColumns=@JoinColumn(name="tour_id"),
             inverseJoinColumns=@JoinColumn(name="category_id"))

@@ -1,7 +1,6 @@
 package toursite.service;
 
 import toursite.model.Category;
-import toursite.model.Review;
 
 import java.util.List;
 

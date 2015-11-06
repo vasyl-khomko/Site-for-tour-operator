@@ -24,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            <form class="form-horizontal" action="/tours/save-or-update-tourdays" method="post">
+            <form class="form-horizontal" action="${pageContext.request.contextPath}/tours/save-or-update-tourdays" method="post">
                 <c:forEach items="${tourdays}" var="tourday" varStatus="i">
                     <div class="form-group">
                         <div class="col-md-12">

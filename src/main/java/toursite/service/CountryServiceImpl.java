@@ -23,7 +23,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Transactional
     public Country findById(int countryId) {
-        return countryDAO.findById(countryId);
+        return countryDAO.findOne(countryId);
     }
 
     @Transactional
